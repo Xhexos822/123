@@ -33,5 +33,11 @@ def check_key():
     else:
         return jsonify({'valid': False, 'message': 'Invalid key.'}), 400
 
+# Add Content Security Policy (CSP)
+@app.after_request
+def add_csp_header(response):
+    response.headers['Content-Security-Policy'] = "connect-src 'self' apiurl.com"
+    return response
+
 if __name__ == '__main__':
     app.run(debug=True)
