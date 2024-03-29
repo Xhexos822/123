@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 import uuid
 
 app = Flask(__name__)
+CORS(app)
 
 # Load keys and values from JSON file
 with open('keys.json', 'r') as file:
