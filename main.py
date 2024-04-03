@@ -9,7 +9,7 @@ with open('keys.json') as f:
 
 
 # Endpoint to check key
-@app.route('/check_key', methods=['POST'])
+@app.route('/check_key', methods=['POST', 'GET'])
 def check_key():
     data = request.json
     key = data.get('key')
