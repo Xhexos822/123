@@ -1,35 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
+from flask import Flask, request, jsonify
+import json
 
-const app = express();
-const port = 3000;
+app = Flask(__name__)
 
-app.use(bodyParser.json());
+# Load keys from JSON file
+with open('keys.json') as f:
+    keys = json.load(f)
 
-// Endpoint to check key
-app.post('/check_key', (req, res) => {
-    const { key } = req.body;
-    if (!key) {
-        return res.status(400).json({ error: 'Key is required' });
-    }
 
-    // Load keys from JSON file
-    fs.readFile('keys.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading file:', err);
-            return res.status(500).json({ error: 'Internal server error' });
-        }
+# Endpoint to check key
+@app.route('/check_key', methods=['POST'])
+def check_key():
+    data = request.json
+    key = data.get('key')
 
-        const keys = JSON.parse(data);
-        if (keys.includes(key)) {
-            return res.status(200).json({ valid: true });
-        } else {
-            return res.status(200).json({ valid: false });
-        }
-    });
-});
+    if not key:
+        return jsonify({'error': 'Key is required'}), 400
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+    if key in keys:
+        return jsonify({'valid': True}), 200
+    else:
+        return jsonify({'valid': False}), 200
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
