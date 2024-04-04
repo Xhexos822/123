@@ -20,7 +20,7 @@ def check_key():
 
         if key in keys:
             # Return the validity of the key along with the associated username
-            return jsonify({'valid': True, 'user': keys[key]['user']}), 200
+            return jsonify({'valid': True, 'user': keys[key][user]}), 200
         else:
             return jsonify({'valid': False}), 200
     else:
