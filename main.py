@@ -14,6 +14,7 @@ def check_key():
     if request.method == 'POST':
         data = request.json
         key = data.get('key')
+        user = data.get('user')
 
         if not key:
             return jsonify({'error': 'Key is required'}), 400
